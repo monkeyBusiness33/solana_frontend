@@ -100,7 +100,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
       }
       handleReload();
     };
-
+    const balance = useBalance(wallet.publicAddress);
     switch (columnKey) {
       case "no":
         return <div>{wallets.findIndex((w) => w === wallet) + 1}</div>;
@@ -122,7 +122,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
         return (
           <div className="flex flex-row">
             <p className="text-bold text-sm capitalize">
-              {useBalance(wallet.publicAddress)}
+              {balance}
             </p>
           </div>
         );
