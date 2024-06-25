@@ -37,6 +37,7 @@ const BuyContent: React.FC = () => {
   // const [wallets, setWallets] = useState<Wallet[]>([]);
   const [selectedWallet, setSelectedWallet] = useState<string>("");
   const [tokenAddress, setTokenAddress] = useState<string>("");
+  const [walletAddress, setWalletAddress] = useState<string>("");
   const [isUpdating, setUpdating] = useState<boolean>(false);
 
   const handleChange = (
@@ -83,14 +84,15 @@ const BuyContent: React.FC = () => {
   // }, [connectWallet]);
 
   const handleUpdate = async () => {
-    if (connected && tokenAddress) {
+    if (connected && selectedWallet) {
       setUpdating(true);
+
       const setting = {
         ...formValues,
         connected,
         tokenAddress,
-        selectedWallet
-      }
+        walletAddress,
+      };
       // console.log("setting", setting);
       const result = await updateBuySetting(setting);
       if (result.status) {
@@ -124,7 +126,9 @@ const BuyContent: React.FC = () => {
   const handleTokenChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setTokenAddress(event.target.value);
+    selectedWallet == "wallet"
+      ? setWalletAddress(event.target.value)
+      : setTokenAddress(event.target.value);
   };
   return (
     <div>
@@ -148,8 +152,8 @@ const BuyContent: React.FC = () => {
             type="string"
             placeholder="Account/Wallet Address"
             className="rounded-md p-1 px-3"
-            name="tokenAddress"
-            value={tokenAddress ?? ""}
+            name= {selectedWallet=="wallet"? "walletAddress" : "tokenAddress"}
+            value={tokenAddress || walletAddress}
             onChange={handleTokenChange}
           />
         </div>

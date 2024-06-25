@@ -26,7 +26,7 @@ export const User = async (info: Values) => {
 
 export const  getWallets = async () => {
   try {
-    const walletDatas = await axiosInstance.get('wallet/all'); // Use axios instance to make a post request
+    const walletDatas = await axiosInstance.get('settings/all'); // Use axios instance to make a post request
 
     return {
       status: true,

@@ -28,13 +28,13 @@ import { toast } from "react-toastify";
 
 const columns = [
   { name: "NO", uid: "no" },
-  { name: "NAME", uid: "walletName" },
-  { name: "Wallet Address", uid: "publicAddress" },
+  { name: "Wallet Address", uid: "wallet" },
   { name: "Current Balance", uid: "walletBalance" },
-  { name: "Token Adress(JOCAT)", uid: "tokendAddress" },
+  { name: "Token Adress(JOCAT)", uid: "tokenAddress" },
+  { name: "Account Adress", uid: "walletAddress" },
   { name: "STATUS", uid: "status" },
-  { name: "Buying Amount", uid: "investAmount" },
-  { name: "Total Profit/Loss", uid: "profit" },
+  { name: "Buying Amount", uid: "investSolAmount" },
+  { name: "Total Profit/Loss", uid: "totalProfit" },
   { name: "ACTIONS", uid: "actions" },
 ];
 
@@ -52,6 +52,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
     columnKey: React.Key;
   }) => {
     const [copyed, setCopyed] = useState<boolean>(false);
+    const [actionStatus, setActionStatus] = useState<string>("");
     const cellValue = wallet[columnKey as keyof any];
     const handleCopy = () => {
       setCopyed((prev) => !prev);
@@ -64,6 +65,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
         toast.error("It's already activated.");
         return;
       }
+      setActionStatus("Edit");
       const result = await statusChangeWallet({ walletId });
       if (result.status) {
         toast.success(result.msg);
@@ -100,11 +102,12 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
       }
       handleReload();
     };
-    const balance = useBalance(wallet.publicAddress);
+    // const balance = useBalance(wallet.publicAddress);
+
     switch (columnKey) {
       case "no":
         return <div>{wallets.findIndex((w) => w === wallet) + 1}</div>;
-      case "publicAddress":
+      case "wallet":
         return (
           <div className="flex flex-row">
             <p className="text-bold text-sm capitalize">
@@ -121,8 +124,22 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
       case "walletBalance":
         return (
           <div className="flex flex-row">
+            <p className="text-bold text-sm capitalize"></p>
+          </div>
+        );
+      case "walletAddress":
+        return (
+          <div className="flex flex-row">
             <p className="text-bold text-sm capitalize">
-              {balance}
+              {shortAddress(cellValue)}
+            </p>
+          </div>
+        );
+      case "tokenAddress":
+        return (
+          <div className="flex flex-row">
+            <p className="text-bold text-sm capitalize">
+              {shortAddress(cellValue)}
             </p>
           </div>
         );
@@ -134,7 +151,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
             size="sm"
             variant="flat"
           >
-            {cellValue ? "Listening" : "Trading In Progress"}
+            {cellValue ? "Trading In Progress" : "Listening"}
           </Chip>
         );
       case "investAmount":
@@ -152,6 +169,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
+            {actionStatus}
             <Dropdown className="bg-background border-1 border-default-200">
               <DropdownTrigger>
                 <Button isIconOnly radius="full" size="sm" variant="light">
