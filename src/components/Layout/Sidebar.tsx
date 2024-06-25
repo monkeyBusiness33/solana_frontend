@@ -57,13 +57,13 @@ const SideBar: React.FC<SideBarProps> = ({ show, setter }) => {
                     </Link>
                 </div>
                 <div className="flex flex-col">
-                    {/* <MenuItem
+                    <MenuItem
                         name="Home"
                         route="/"
                         icon={<Icon icon="flat-color-icons:home" className="mr-1"/>}
-                    /> */}
+                    />
                     <MenuItem
-                        name="Home"
+                        name="Setting"
                         route="/settings"
                         icon={<Icon icon="icon-park-twotone:setting" className="mr-1"/>}
                     />

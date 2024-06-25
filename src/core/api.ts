@@ -153,18 +153,16 @@ export const deleteWallet = async ({ walletId }: { walletId: string }) => {
   }
 }
 
-export const updateBuySetting = async (selectedWalletId: string, buySetting: any) => {
+export const updateBuySetting = async ( setting: any) => {
   try {
     const result = await axiosInstance.post('settings/buy/update', {
-      wallet: selectedWalletId,
-      ...buySetting
+      setting
     });
-    const resultAmount = await axiosInstance.post('wallet/sol', {
-      wallet: selectedWalletId,
-      ...buySetting
-    });
+    // const resultAmount = await axiosInstance.post('wallet/sol', {
+    //   setting
+    // });
 
-    if (result.status === 200 && resultAmount.status === 200) {
+    if (result.status === 200) {
       return {
         status: true,
         msg: 'It has been successfully updated',
