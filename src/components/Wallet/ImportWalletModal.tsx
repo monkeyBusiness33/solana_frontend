@@ -9,8 +9,8 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { AppDispatch, RootState } from '@/redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { setWalletInfo } from "@/redux/features/usersReducer";
 
 interface ImportWalletModalProps {
@@ -54,16 +54,16 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
         secretKey: secretKey,
       },
     };
-    if (!walletName || !secretKey) {
-      toast.error("wallet name and key is required");
+    if (!secretKey) {
+      toast.error("wallet key is required");
     } else {
-      dispatch(setWalletInfo({publicKey:secretKey,connected:true}))
-      const result = await importNewWallet(walletData);
-      if (result.status) {
-        toast.success(result.msg);
-      } else {
-        toast.error(result.msg);
-      }
+      dispatch(setWalletInfo({ publicKey: secretKey, connected: true }));
+      // const result = await importNewWallet(walletData);
+      // if (result.status) {
+      //   toast.success(result.msg);
+      // } else {
+      //   toast.error(result.msg);
+      // }
       handleReload();
     }
   };
@@ -76,7 +76,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
         </ModalHeader>
         <ModalBody>
           <div className="flex flex-col gap-4 w-full">
-            <div className="flex flex-row gap-2 items-center justify-center">
+            {/* <div className="flex flex-row gap-2 items-center justify-center">
               <div className="w-[105px] text-right">Wallet Name :</div>
               <div>
                 <input
@@ -87,7 +87,7 @@ const ImportWalletModal: React.FC<ImportWalletModalProps> = ({
                   value={walletName}
                 />
               </div>
-            </div>
+            </div> */}
             <div className="flex flex-row gap-2 items-center justify-center">
               <div className="w-[105px] text-right">Secret Key :</div>
               <div>

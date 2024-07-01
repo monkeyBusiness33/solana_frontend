@@ -24,7 +24,7 @@ const WalletContent: React.FC = () => {
       const data = await getWallets();
       setWallets(data.data);
     };
-    if (!reloadTable) fetchData();
+    fetchData();
   }, [reloadTable]);
 
   const handleCreateWallet = () => {

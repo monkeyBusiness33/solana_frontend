@@ -6,6 +6,10 @@ import WalletContent from "@/components/Wallet/WalletContent";
 import BuyContent from "@/components/Buy/BuyContent";
 import { useDisclosure, useSelect } from "@nextui-org/react";
 import ImportWalletModal from "@/components/Wallet/ImportWalletModal";
+import { useDispatch, useSelector } from 'react-redux';
+import { Connection } from '@solana/web3.js';
+import { AppDispatch, RootState } from '@/redux/store';
+
 
 export default function Home() {
   const {
@@ -18,6 +22,7 @@ export default function Home() {
     onImportWalletOpen();
     setReload((prev) => !prev);
   };
+  const connected = useSelector((state: RootState) => state.users.walletInfo.connected);
   return (
     <div className="flex w-full flex-col p-20 text-gray-400">
       <p className="text-gray-400 text-3xl text-center">Settings</p>
@@ -26,7 +31,7 @@ export default function Home() {
             className="p-2 border rounded-lg border-[#06b6d4] hover:cursor-pointer hover:bg-[#06b6d4] hover:text-white flex flex-row items-center w-[170px] justify-center"
             onClick={() => handleImportWallet()}
           >
-            Connect Wallet
+           {connected?'Connected' : 'Connect Wallet'}
             <Icon icon="solar:wallet-money-bold" className="ml-1" />
           </button>
         </div>

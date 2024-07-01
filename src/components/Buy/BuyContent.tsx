@@ -51,49 +51,63 @@ const BuyContent: React.FC = () => {
     }));
   };
 
-  useEffect(() => {
-    console.log(formValues);
-  }, [formValues]);
+  const getAllWebhooks = async () => {
+    try {
+      const response = await fetch(
+        "https://api.helius.xyz/v0/webhooks?api-key=d973a2d5-0d39-464d-9bc0-ed372343bd53",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      console.log("GETALL-----", { data });
+    } catch (e) {
+      console.error("error", e);
+    }
+  };
 
-  // useEffect(() => {
-  // const fetchDataW = async () => {
-  //   const data = await getWallets();
-  //   setWallets(data.data);
-  // };
-
-  // fetchDataW();
-  //   const fetchData = async () => {
-  //     try {
-  //       const result = await getBuySettings();
-  //       if (result.status) {
-  //         setData(result.data);
-  //       } else {
-  //         toast.warning(result.msg);
-  //       }
-  //       // Do something with the result if needed
-  //     } catch (error) {
-  //       console.error("Error updating buy setting:", error);
-  //     }
-  //   };
-
-  //   if (connectWallet) {
-  //     fetchData();
-  //   } else {
-  //     toast.warning("Connect Wallet");
-  //   }
-  // }, [connectWallet]);
+  const webhook = async () => {
+    try {
+      const response = await fetch(
+        "https://api.helius.xyz/v0/webhooks?api-key=d973a2d5-0d39-464d-9bc0-ed372343bd53",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            webhookURL:
+              "https://0a9b-91-239-130-102.ngrok-free.app/api/v0/webhooks",
+            transactionTypes: ["ADD_TO_POOL"],
+            accountAddresses: ["39azUYFWPz3VHgKCf3VChUwbpURdCHRxjWVowf5jUJjg"],
+            webhookType: "enhanced", // "enhancedDevnet"
+            txnStatus: "all",
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log("-------------", data, data.webhookID);
+      // getWebhooks(data.webhookID);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleUpdate = async () => {
+    console.log("-----------/////////////////////-----------------");
     if (connected && selectedWallet) {
+      // webhook();
+      // getAllWebhooks();
       setUpdating(true);
-
       const setting = {
         ...formValues,
         connected,
         tokenAddress,
         walletAddress,
       };
-      // console.log("setting", setting);
       const result = await updateBuySetting(setting);
       if (result.status) {
         toast.success(result.msg);
@@ -152,7 +166,7 @@ const BuyContent: React.FC = () => {
             type="string"
             placeholder="Account/Wallet Address"
             className="rounded-md p-1 px-3"
-            name= {selectedWallet=="wallet"? "walletAddress" : "tokenAddress"}
+            name={selectedWallet == "wallet" ? "walletAddress" : "tokenAddress"}
             value={tokenAddress || walletAddress}
             onChange={handleTokenChange}
           />
@@ -240,7 +254,7 @@ const BuyContent: React.FC = () => {
           size="lg"
           onClick={handleUpdate}
         >
-          Update
+          Create Order
         </Button>
       </div>
     </div>

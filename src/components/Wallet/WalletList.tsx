@@ -65,7 +65,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
         toast.error("It's already activated.");
         return;
       }
-      setActionStatus("Edit");
+      // setActionStatus("Edit");
       const result = await statusChangeWallet({ walletId });
       if (result.status) {
         toast.success(result.msg);
@@ -128,20 +128,32 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
           </div>
         );
       case "walletAddress":
-        return (
+        return ( cellValue?
           <div className="flex flex-row">
             <p className="text-bold text-sm capitalize">
               {shortAddress(cellValue)}
             </p>
-          </div>
+            <button onClick={() => handleCopy()}>
+              <Icon
+                icon={copyed ? "entypo:check" : "ion:copy"}
+                className="ml-2 text-lg"
+              />
+            </button>
+          </div> : ''
         );
       case "tokenAddress":
-        return (
+        return ( cellValue?
           <div className="flex flex-row">
             <p className="text-bold text-sm capitalize">
               {shortAddress(cellValue)}
             </p>
-          </div>
+            <button onClick={() => handleCopy()}>
+              <Icon
+                icon={copyed ? "entypo:check" : "ion:copy"}
+                className="ml-2 text-lg"
+              />
+            </button>
+          </div>:''
         );
       case "status":
         return (
@@ -183,7 +195,7 @@ const WalletList: React.FC<WalletlistProps> = ({ wallets, handleReload }) => {
                 <DropdownItem onClick={() => handleStop(wallet["_id"])}>
                   Pause
                 </DropdownItem>
-                <DropdownItem onClick={() => handleDelete(wallet["_id"])}>
+                <DropdownItem onClick={() => handleStart(wallet["_id"])}>
                   Cancel
                 </DropdownItem>
                 <DropdownItem onClick={() => handleDelete(wallet["_id"])}>

@@ -108,8 +108,8 @@ export const statusChangeWallet = async ({ walletId }: { walletId: string }) => 
     const result = await axiosInstance.post('wallet/status', {
       walletId: walletId
     });
-
-    if (result.data?.publicAddress) {
+  
+    if (result.data?.wallet) {
       return {
         status: true,
         msg: 'It has been successfully updated.'
